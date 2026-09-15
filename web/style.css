@@ -434,20 +434,58 @@ body {
     color: var(--text-muted);
     font-size: 13px;
     pointer-events: none;
+    z-index: 1;
+}
+
+.select-wrapper::after {
+    content: "\f078";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 10px;
+    pointer-events: none;
 }
 
 .select-wrapper select {
-    padding: 10px 14px 10px 34px;
+    padding: 10px 32px 10px 34px;
     border-radius: var(--radius-sm);
     border: 1px solid var(--border-color);
-    background: rgba(0, 0, 0, 0.15);
+    background: var(--bg-card);
     color: var(--text-primary);
     font-size: 13px;
+    font-weight: 500;
     outline: none;
     cursor: pointer;
     appearance: none;
     -webkit-appearance: none;
-    padding-right: 28px;
+    transition: all 0.2s ease;
+}
+
+.select-wrapper select:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--accent-blue);
+}
+
+.select-wrapper select:focus {
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
+}
+
+/* Style dropdown option items for high contrast readability */
+select option {
+    background-color: #1e293b;
+    color: #f8fafc;
+    padding: 10px;
+    font-size: 13px;
+}
+
+[data-theme="light"] select option {
+    background-color: #ffffff;
+    color: #0f172a;
 }
 
 /* TAB NAVIGATION */
