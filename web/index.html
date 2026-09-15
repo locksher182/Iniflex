@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniflex | Painel Fullstack & Gestão de Riscos (Prothera)</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="background-globes">
+        <div class="globe globe-1"></div>
+        <div class="globe globe-2"></div>
+        <div class="globe globe-3"></div>
+    </div>
+
+    <div class="app-container">
+        <!-- HEADER -->
+        <header class="navbar glass">
+            <div class="brand">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <div>
+                    <h1>Iniflex <span>Fullstack + Prothera Risk</span></h1>
+                    <p class="subtitle">Gestão de Recursos Humanos, SQL & Análise de Riscos</p>
+                </div>
+            </div>
+
+            <div class="header-actions">
+                <div class="status-badge" id="api-status">
+                    <span class="pulse-dot"></span>
+                    <span id="status-text">SQL DB & API Conectados</span>
+                </div>
+
+                <button class="btn-icon" id="theme-toggle" title="Alternar Tema Claro/Escuro">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- DASHBOARD METRICS CARDS -->
+        <section class="metrics-grid">
+            <div class="metric-card glass">
+                <div class="metric-icon green">
+                    <i class="fa-solid fa-sack-dollar"></i>
+                </div>
+                <div class="metric-content">
+                    <div class="metric-header">
+                        <span class="metric-label">Folha Salarial Total</span>
+                        <span class="req-badge">Req 3.11</span>
+                    </div>
+                    <h2 id="metric-total-salario">R$ 0,00</h2>
+                    <span class="metric-sub" id="metric-media-salario">Média: R$ 0,00 / colab.</span>
+                </div>
+            </div>
+
+            <div class="metric-card glass">
+                <div class="metric-icon blue">
+                    <i class="fa-solid fa-users"></i>
+                </div>
+                <div class="metric-content">
+                    <div class="metric-header">
+                        <span class="metric-label">Total de Colaboradores</span>
+                        <span class="req-badge">Req 3.3</span>
+                    </div>
+                    <h2 id="metric-total-colab">0</h2>
+                    <span class="metric-sub" id="metric-cargos-count">0 funções registradas</span>
+                </div>
+            </div>
+
+            <div class="metric-card glass">
+                <div class="metric-icon purple">
+                    <i class="fa-solid fa-user-clock"></i>
+                </div>
+                <div class="metric-content">
+                    <div class="metric-header">
+                        <span class="metric-label">Colaborador Mais Idoso</span>
+                        <span class="req-badge">Req 3.9</span>
+                    </div>
+                    <h2 id="metric-mais-velho-nome">--</h2>
+                    <span class="metric-sub" id="metric-mais-velho-idade">-- anos</span>
+                </div>
+            </div>
+
+            <div class="metric-card glass">
+                <div class="metric-icon amber">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+                <div class="metric-content">
+                    <div class="metric-header">
+                        <span class="metric-label">Status de Risco Global</span>
+                        <span class="req-badge">Prothera</span>
+                    </div>
+                    <h2 id="metric-risco-status" style="font-size: 16px;">MÉDIO</h2>
+                    <span class="metric-sub" id="metric-disparidade">Disparidade: 0.0x</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ACTION TOOLBAR -->
+        <section class="toolbar glass">
+            <div class="action-buttons">
+                <button class="btn btn-success" id="btn-aumento">
+                    <i class="fa-solid fa-arrow-trend-up"></i> Aplicar 10% Aumento <span class="req-tag">3.4</span>
+                </button>
+                <button class="btn btn-warning" id="btn-remover-joao">
+                    <i class="fa-solid fa-user-minus"></i> Remover "João" <span class="req-tag">3.2</span>
+                </button>
+                <button class="btn btn-outline" id="btn-filtro-aniv">
+                    <i class="fa-solid fa-filter"></i> Ver Aniversariantes (10 e 12) <span class="req-tag">3.8</span>
+                </button>
+                <button class="btn btn-secondary" id="btn-reset">
+                    <i class="fa-solid fa-rotate-left"></i> Restaurar Dados <span class="req-tag">3.1</span>
+                </button>
+            </div>
+
+            <button class="btn btn-primary" id="btn-novo-funcionario">
+                <i class="fa-solid fa-user-plus"></i> + Novo Colaborador
+            </button>
+        </section>
+
+        <!-- CONTROLS & SEARCH BAR -->
+        <section class="controls-bar glass">
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="search-input" placeholder="Buscar por nome ou função...">
+            </div>
+
+            <div class="filters-group">
+                <div class="select-wrapper">
+                    <i class="fa-solid fa-briefcase"></i>
+                    <select id="filter-funcao">
+                        <option value="TODAS">Todas as Funções (Req 3.5)</option>
+                    </select>
+                </div>
+
+                <div class="select-wrapper">
+                    <i class="fa-solid fa-arrow-down-a-z"></i>
+                    <select id="sort-select">
+                        <option value="NOME_ASC">Ordem Alfabética A-Z (Req 3.10)</option>
+                        <option value="SALARIO_DESC">Salário: Maior → Menor</option>
+                        <option value="SALARIO_ASC">Salário: Menor → Maior</option>
+                        <option value="IDADE_DESC">Idade: Mais Velho → Mais Novo</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <!-- MAIN CONTENT TAB VIEW -->
+        <main class="main-content">
+            <!-- TAB NAVIGATION -->
+            <div class="tab-nav">
+                <button class="tab-btn active" data-tab="tab-tabela">
+                    <i class="fa-solid fa-table-list"></i> Tabela Principal
+                </button>
+                <button class="tab-btn" data-tab="tab-agrupado">
+                    <i class="fa-solid fa-layer-group"></i> Agrupados por Função (Req 3.6)
+                </button>
+                <button class="tab-btn" data-tab="tab-graficos">
+                    <i class="fa-solid fa-chart-pie"></i> Gráficos Analytics
+                </button>
+                <button class="tab-btn" data-tab="tab-risco" style="border: 1px solid rgba(139, 92, 246, 0.4); color: var(--accent-purple);">
+                    <i class="fa-solid fa-shield-virus"></i> Matriz de Riscos & Compliance (Prothera)
+                </button>
+            </div>
+
+            <!-- TAB 1: TABELA PRINCIPAL -->
+            <div class="tab-content active" id="tab-tabela">
+                <div class="table-container glass">
+                    <table class="custom-table">
+                        <thead>
+                            <tr>
+                                <th>Colaborador</th>
+                                <th>Data Nasc.</th>
+                                <th>Idade</th>
+                                <th>Função / Cargo</th>
+                                <th>Salário Atual</th>
+                                <th>Salários Mínimos (R$ 1.212,00)</th>
+                                <th class="text-right">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-body">
+                            <!-- Inserido dinamicamente pelo JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TAB 2: AGRUPADOS POR FUNÇÃO -->
+            <div class="tab-content" id="tab-agrupado">
+                <div class="funcoes-grid" id="funcoes-container">
+                    <!-- Inserido dinamicamente pelo JS -->
+                </div>
+            </div>
+
+            <!-- TAB 3: GRÁFICOS ANALYTICS -->
+            <div class="tab-content" id="tab-graficos">
+                <div class="charts-grid">
+                    <div class="chart-card glass">
+                        <h3><i class="fa-solid fa-chart-bar"></i> Total da Folha Salarial por Função</h3>
+                        <div class="chart-wrapper">
+                            <canvas id="chart-funcoes"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="chart-card glass">
+                        <h3><i class="fa-solid fa-chart-column"></i> Múltiplos de Salários Mínimos por Colaborador</h3>
+                        <div class="chart-wrapper">
+                            <canvas id="chart-salarios-minimos"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 4: MATRIZ DE RISCOS & COMPLIANCE (PROTHERA SPECIAL) -->
+            <div class="tab-content" id="tab-risco">
+                <div class="charts-grid">
+                    <div class="chart-card glass">
+                        <h3><i class="fa-solid fa-triangle-exclamation"></i> Diagnóstico de Risco Financeiro</h3>
+                        <div id="risco-diagnostico-card" style="padding: 16px; border-radius: 8px; background: rgba(0,0,0,0.2);">
+                            <div style="font-size: 14px; margin-bottom: 12px;" id="risco-global-desc">Carregando diagnóstico...</div>
+                            <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+                                <div style="flex: 1; min-width: 180px; padding: 12px; background: rgba(255,255,255,0.05); border-radius: 6px;">
+                                    <div style="font-size: 11px; color: var(--text-muted);">Razão de Disparidade (Max/Min)</div>
+                                    <div style="font-size: 18px; font-weight: 700; color: var(--accent-purple);" id="risco-razao">0.0x</div>
+                                </div>
+                                <div style="flex: 1; min-width: 180px; padding: 12px; background: rgba(255,255,255,0.05); border-radius: 6px;">
+                                    <div style="font-size: 11px; color: var(--text-muted);">Conformidade Piso Salarial</div>
+                                    <div style="font-size: 18px; font-weight: 700; color: var(--accent-green);" id="risco-piso">100%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chart-card glass">
+                        <h3><i class="fa-solid fa-chart-pie"></i> Concentração de Custo por Função (% da Folha)</h3>
+                        <div class="chart-wrapper">
+                            <canvas id="chart-concentracao-risco"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+            <p>Iniflex Fullstack + Prothera Risk &copy; 2026 - Projeto adaptado com SQL H2, JUnit e Módulo de Riscos.</p>
+        </footer>
+    </div>
+
+    <!-- MODAL CADASTRO FUNCIONÁRIO -->
+    <div class="modal-overlay" id="modal-funcionario">
+        <div class="modal-card glass">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-user-plus"></i> Novo Colaborador</h3>
+                <button class="btn-close" id="modal-close">&times;</button>
+            </div>
+            <form id="form-funcionario">
+                <div class="form-group">
+                    <label for="input-nome">Nome Completo</label>
+                    <input type="text" id="input-nome" required placeholder="Ex: Roberto Silva">
+                </div>
+
+                <div class="form-group">
+                    <label for="input-data-nasc">Data de Nascimento</label>
+                    <input type="date" id="input-data-nasc" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="input-salario">Salário Inicial (R$)</label>
+                    <input type="number" id="input-salario" step="0.01" min="0" required placeholder="Ex: 2500.00">
+                </div>
+
+                <div class="form-group">
+                    <label for="input-funcao">Função / Cargo</label>
+                    <input type="text" id="input-funcao" required placeholder="Ex: Engenheiro">
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="modal-cancel">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar Colaborador</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
